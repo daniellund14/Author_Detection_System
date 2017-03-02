@@ -20,7 +20,6 @@ public class MainClass {
 		
 		Job job1=Job.getInstance(conf);
 		job1.setJarByClass(MainClass.class);
-        Integer fileType = new Integer(args[0]);
 
 		job1.setMapperClass(UnigramAuthorMapper.class);
 		job1.setReducerClass(WordCountReducer.class);
@@ -29,12 +28,24 @@ public class MainClass {
 		job1.setInputFormatClass(TextInputFormat.class);
 		job1.setOutputFormatClass(TextOutputFormat.class);
 		
-		FileInputFormat.setInputPaths(job1, new Path(args[1]));
-		FileOutputFormat.setOutputPath(job1, new Path(args[2]));
+		FileInputFormat.setInputPaths(job1, new Path(args[0]));
+		FileOutputFormat.setOutputPath(job1, new Path(args[1]));
 		job1.waitForCompletion(true);
+		if(job1.isSuccessful()) {
+			Job job2 = Job.getInstance(conf);
+            job2.setJarByClass(MainClass.class);
+            job2.setMapperClass(TermFrequencyMapper.class);
+            job2.setReducerClass(TermFrequencyReducer.class);
+            job2.setOutputKeyClass(Text.class);
+            job2.setOutputValueClass(Text.class);
+            job2.setInputFormatClass(TextInputFormat.class);
+            job2.setOutputFormatClass(TextOutputFormat.class);
 
-		Job job2 = Job.getInstance(conf);
+            FileInputFormat.setInputPaths(job2, new Path(args[1]));
+            FileOutputFormat.setOutputPath(job2, new Path(args[2]));
+            System.exit(job2.waitForCompletion(true) ? 0 : 1);
+		}
 
-		System.exit(job1.waitForCompletion(true) ? 0 : 1);
+
 	}
 }

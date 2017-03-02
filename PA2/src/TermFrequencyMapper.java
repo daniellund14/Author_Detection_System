@@ -16,7 +16,7 @@ public class TermFrequencyMapper extends Mapper<LongWritable, Text, Text, Text> 
         String author = termFrequency[0];
         String term = termFrequency[1];
         String frequency = termFrequency[2];
-        context.write(new Text(frequency + "\t" + term + "\t" + author), new Text(""));
+        context.write(new Text(author), new Text(term + " " + frequency));
 
     }
 }
