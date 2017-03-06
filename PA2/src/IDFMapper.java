@@ -5,18 +5,17 @@ import org.apache.hadoop.mapreduce.Mapper;
 import java.io.IOException;
 
 /**
- * Created by DanielLund on 2/27/17.
+ * Created by DanielLund on 3/1/17.
  */
-public class TermFrequencyMapper extends Mapper<LongWritable, Text, Text, Text> {
+public class IDFMapper extends Mapper<LongWritable, Text, Text, Text> {
 
     public void map(LongWritable key, Text value, Mapper.Context context) throws
-            IOException, InterruptedException{
-
+            IOException, InterruptedException {
         String[] termFrequency = value.toString().split("\\s+");
         String author = termFrequency[0];
         String term = termFrequency[1];
-        String frequency = termFrequency[2];
-        context.write(new Text(author), new Text(term + " " + frequency));
+        String tf = termFrequency[2];
+        context.write(new Text(term), new Text(author+":"+tf));
 
     }
 }
