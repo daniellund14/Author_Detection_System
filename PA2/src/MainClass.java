@@ -1,4 +1,5 @@
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
@@ -7,7 +8,10 @@ import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+
 public class MainClass {
 	public static void main(String[] args) throws IOException, ClassNotFoundException,
 	InterruptedException {
@@ -48,7 +52,7 @@ public class MainClass {
 //			System.exit(job2.waitForCompletion(true) ? 0 : 1);
 			if(job2.isSuccessful()){
 				//TODO implement method to count number of authors
-					conf.setLong("NUMBER_AUTHORS", 21);
+				conf.setLong("NUMBER_AUTHORS", countAuthors(conf, args[1]));
 
 				Job job3 = Job.getInstance(conf);
 				job3.setJarByClass(MainClass.class);
@@ -59,7 +63,7 @@ public class MainClass {
 				job3.setInputFormatClass(TextInputFormat.class);
 				job3.setOutputFormatClass(TextOutputFormat.class);
 
-				FileInputFormat.setInputPaths(job3, new Path(args[2]));
+				FileInputFormat.setInputPaths(job3, new Path(args[1]));
 				FileOutputFormat.setOutputPath(job3, new Path(args[3]));
 
 				job3.waitForCompletion(true);
@@ -67,5 +71,28 @@ public class MainClass {
 		}
 
 
+	}
+
+	private static Long countAuthors(Configuration conf, String inputFile) throws IOException, ClassNotFoundException, InterruptedException {
+		//conf.setLong("NUMBER_AUTHORS", 0);
+		Job countAuthors = Job.getInstance(conf);
+
+		countAuthors.setJarByClass(MainClass.class);
+		countAuthors.setMapperClass(CountAuthorsMapper.class);
+		countAuthors.setReducerClass(CountAuthorsReducer.class);
+		countAuthors.setOutputKeyClass(Text.class);
+		countAuthors.setOutputValueClass(Text.class);
+		countAuthors.setInputFormatClass(TextInputFormat.class);
+		countAuthors.setOutputFormatClass(TextOutputFormat.class);
+
+		FileInputFormat.setInputPaths(countAuthors, new Path(inputFile));
+		FileOutputFormat.setOutputPath(countAuthors, new Path("/PA2_author_count"));
+		countAuthors.waitForCompletion(true);
+		Path outputPath = new Path("/PA2_author_count/part-r-00000");
+		FileSystem fs = FileSystem.get(conf);
+		BufferedReader reader = new BufferedReader(new InputStreamReader(fs.open(outputPath)));
+		String line = reader.readLine();
+		Long authors = new Long(line.trim());
+		return authors;
 	}
 }

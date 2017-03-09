@@ -3,6 +3,7 @@ import org.apache.hadoop.mapreduce.Reducer;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Created by DanielLund on 2/27/17.
@@ -26,6 +27,7 @@ public class TFReducer extends Reducer<Text,Text,Text,Text> {
             }
             cache.add(copy);
         }
+        Collections.sort(cache);
         for(Text s: cache){
             String[] split = s.toString().split(":");
             Double frequency = new Double(split[1]);
