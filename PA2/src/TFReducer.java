@@ -32,7 +32,7 @@ public class TFReducer extends Reducer<Text,Text,Text,Text> {
             String[] split = s.toString().split(":");
             Double frequency = new Double(split[1]);
             Tf =.5 + .5 * (frequency/max);
-            context.write(key, new Text(split[0] + " "+ Tf.toString()));
+            context.write(key, new Text(split[0] + " " + Tf.toString()));
         }
         //context.write(key, new Text(maxTerm + " " + max.toString()));
 

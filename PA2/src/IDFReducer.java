@@ -14,13 +14,11 @@ public class IDFReducer extends Reducer<Text,Text,Text,Text> {
         Long number_authors = context.getConfiguration().getLong("NUMBER_AUTHORS", -1);
         for(Text val: values) {
             count++;
-//            if(values.iterator().hasNext())
-//                value += val.toString() + "<===>";
-//            else
-//                value += val.toString();
         }
         Double IDF = Math.log10(number_authors/(new Double(count)));
-        context.write(key, new Text(IDF.toString() + " " + number_authors.toString()));
+
+        //context.write(key, new Text(IDF.toString() + "\t" + value));
+        context.write(key, new Text(IDF.toString()));
 
 
     }

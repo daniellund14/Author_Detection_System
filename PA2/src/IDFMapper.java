@@ -15,7 +15,8 @@ public class IDFMapper extends Mapper<LongWritable, Text, Text, Text> {
         String author = termFrequency[0];
         String term = termFrequency[1];
         String tf = termFrequency[2];
-        context.write(new Text(term), new Text(author+":"+tf));
+        context.write(new Text(term), new Text(author));
 
     }
+
 }
