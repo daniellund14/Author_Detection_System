@@ -1,3 +1,5 @@
+package offline;
+
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
 
@@ -5,8 +7,10 @@ import java.io.IOException;
 
 /**
  * Created by DanielLund on 3/11/17.
+ * Colorado State University
+ * CS435
  */
-public class AuthorAAVReducer  extends Reducer<Text,Text,Text,Text> {
+public class TFIDFReducer extends Reducer<Text,Text,Text,Text> {
     public void reduce(Text key, Iterable<Text> values, Context context) throws
             IOException, InterruptedException {
         String val = "";

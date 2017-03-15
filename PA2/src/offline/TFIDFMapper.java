@@ -1,3 +1,5 @@
+package offline;
+
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.LongWritable;
@@ -7,14 +9,12 @@ import org.apache.hadoop.mapreduce.Mapper;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 
 /**
  * Created by DanielLund on 3/11/17.
  */
-public class AuthorAAVMapper extends Mapper<LongWritable, Text, Text, Text> {
-
-    static ArrayList<String> authors;
+public class TFIDFMapper extends Mapper<LongWritable, Text, Text, Text> {
+    static String[] authors;
     @Override
     protected void setup(Context context) throws IOException, InterruptedException {
         super.setup(context);
@@ -27,6 +27,7 @@ public class AuthorAAVMapper extends Mapper<LongWritable, Text, Text, Text> {
         if(line.length == 2) {
             String term = line[0];
             String idf = line[1];
+            //if(new Double(idf) != 0.0)
             for (String author : authors) {
                 context.write(new Text(author + " " + term), new Text("#" + idf));
             }
@@ -41,19 +42,22 @@ public class AuthorAAVMapper extends Mapper<LongWritable, Text, Text, Text> {
 
     }
 
-    public ArrayList<String> readAuthors(Context context) throws IOException {
-        ArrayList<String> authors = new ArrayList<>();
+    public String[] readAuthors(Context context) throws IOException {
+
+        String[] list = new String[(context.getConfiguration().getInt(Main_Offline.NUMBER_AUTHORS, -1))];
         FileSystem fs = FileSystem.get(context.getConfiguration());
-        Path path = new Path("/PA2_author_count/part-r-00000");
+        Path path = new Path(Main_Offline.AUTHOR_COUNT_PATH);
         BufferedReader reader = new BufferedReader(new InputStreamReader(fs.open(path)));
         Long lines = new Long(0);
+        int index = 0;
         while (true){
             String line = reader.readLine();
             if(line == null)
                 break;
             else
-                authors.add(line.trim());
+                list[index] = line.trim();
+            index++;
         }
-        return authors;
+        return list;
     }
 }
