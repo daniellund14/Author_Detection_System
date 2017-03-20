@@ -1,4 +1,4 @@
-package pkg;
+package offline;
 
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;

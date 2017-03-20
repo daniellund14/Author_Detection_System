@@ -1,25 +1,33 @@
 package pkg;
 
+import offline.Main_Offline;
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
+import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.input.MultipleInputs;
 import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 /**
  * Created by DanielLund on 3/14/17.
  * Colorado State University
  * CS435
+ *
+ * This class is created to provide utility functions for MR jobs, whether it be creating MR jobs
+ * or reading files from the Hadoop FS with read authors. Other utilities will be provided
  */
 public class MRJob {
 
-    public static boolean job(Configuration conf, String inputPath, String outputPath, Class mapperClass, Class reducerClass, Class mainClass) throws IOException, InterruptedException, ClassNotFoundException {
+    public static boolean job(Configuration conf, String inputPath, String outputPath, Class mapperClass, Class reducerClass, Class mainClass, boolean combiner) throws IOException, InterruptedException, ClassNotFoundException {
         Job idf = Job.getInstance(conf);
         idf.setJarByClass(mainClass);
         idf.setMapperClass(mapperClass);
@@ -54,5 +62,22 @@ public class MRJob {
         tfidf.waitForCompletion(true);
 
         return tfidf.isSuccessful();
+    }
+
+    public static String[] readAuthors(Mapper.Context context) throws IOException {
+        String[] list = new String[(context.getConfiguration().getInt(Main_Offline.NUMBER_AUTHORS, -1))];
+        FileSystem fs = FileSystem.get(context.getConfiguration());
+        Path path = new Path(Main_Offline.AUTHOR_COUNT_PATH);
+        BufferedReader reader = new BufferedReader(new InputStreamReader(fs.open(path)));
+        int index = 0;
+        while (true){
+            String line = reader.readLine();
+            if(line == null)
+                break;
+            else
+                list[index] = line.replace("\t", "");
+            index++;
+        }
+        return list;
     }
 }

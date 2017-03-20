@@ -1,4 +1,4 @@
-package pkg;
+package offline;
 
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
@@ -16,7 +16,7 @@ public class AAVReducer extends Reducer<Text,Text,Text,Text> {
         String AAV = "";
         for (Text val: values){
             if(values.iterator().hasNext()){
-                AAV += val.toString() + " ";
+                AAV += val.toString() + ",";
             }else{
                 AAV += val.toString();
             }
