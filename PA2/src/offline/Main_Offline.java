@@ -1,10 +1,9 @@
 package offline;
 
-import pkg.MRJob;
-
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
+import pkg.MRJob;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -35,7 +34,7 @@ public class Main_Offline {
         conf.setInt(NUMBER_AUTHORS, countAuthors(conf, TF_PATH)); /* Sets number of authors as a property for configuration used in IDF calculations */
         MRJob.job(conf, TF_PATH, IDF_PATH, IDFMapper.class, IDFReducer.class, Main_Offline.class, false);
         MRJob.multipleInputsJob(conf, TF_PATH, IDF_PATH, TFIDF_PATH, TFIDFMapper.class, TFIDFReducer.class, Main_Offline.class);
-        MRJob.job(conf, TFIDF_PATH, AAV_PATH, AAVMapper.class, AAVReducer.class, Main_Offline.class, true);
+       // MRJob.job(conf, TFIDF_PATH, AAV_PATH, AAVMapper.class, AAVReducer.class, Main_Offline.class, true);
 
 	}
 

@@ -5,6 +5,7 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Created by DanielLund on 3/16/17.
@@ -13,7 +14,7 @@ import java.io.IOException;
  */
 public class CosSimMapper extends Mapper<LongWritable, Text, Text, Text> {
 
-    String[] authors;
+    ArrayList<String> authors;
 
     @Override
     protected void setup(Context context) throws IOException, InterruptedException {

@@ -29,7 +29,7 @@ public class TFIDFReducer extends Reducer<Text,Text,Text,Text> {
             }
         }
         Double tfidf = tf*idf;
-        context.write(new Text("<author> " + key), new Text(tfidf.toString()));
+        context.write(new Text(key), new Text(tfidf.toString()));
 
     }
 }

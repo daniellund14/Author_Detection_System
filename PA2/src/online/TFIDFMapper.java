@@ -5,6 +5,7 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Created by DanielLund on 3/15/17.
@@ -12,7 +13,7 @@ import java.io.IOException;
  * CS435
  */
 public class TFIDFMapper extends Mapper<LongWritable, Text, Text, Text>{
-    String[] authors;
+    ArrayList<String> authors;
 
     @Override
     protected void setup(Context context) throws IOException, InterruptedException {
