@@ -6,6 +6,7 @@ import org.apache.hadoop.conf.Configuration;
 import pkg.MRJob;
 
 import java.io.IOException;
+import java.util.Optional;
 
 /**
  * Created by DanielLund on 3/14/17.
@@ -34,8 +35,8 @@ public class Main_Online {
         MRJob.job(conf, args[0], UNIGRAM_PATH, UnigramAuthorMapper.class, WordCountReducer.class, Main_Online.class, false);
         MRJob.job(conf, UNIGRAM_PATH, TF_PATH, offline.TFMapper.class, offline.TFReducer.class, Main_Online.class, false);
         conf.setInt(offline.Main_Offline.NUMBER_AUTHORS, pkg.MRJob.countAuthors(conf, TF_PATH)); /* Sets number of authors as a property for configuration used in IDF calculations */
-        MRJob.multipleInputsJob(conf, TF_PATH, OFFLINE_IDF_PATH, TFIDF_PATH, TFIDFMapper.class, TFIDFReducer.class, Main_Online.class);
-        MRJob.multipleInputsJob(conf, TFIDF_PATH, OFFLINE_TFIDF_PATH, AAV_PATH, online.AAVMapper.class, online.AAVReducer.class, Main_Online.class);
+        MRJob.multipleInputsJob(conf, TF_PATH, OFFLINE_IDF_PATH, TFIDF_PATH, TFIDFMapper.class, TFIDFReducer.class, Main_Online.class, Optional.empty());
+        MRJob.multipleInputsJob(conf, TFIDF_PATH, OFFLINE_TFIDF_PATH, AAV_PATH, online.AAVMapper.class, online.AAVReducer.class, Main_Online.class, Optional.empty());
 
         /*
         TODO Implement MR job to calculate cosine similarity, possibly consider a method? depending on how long the code is

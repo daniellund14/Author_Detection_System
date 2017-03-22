@@ -8,6 +8,7 @@ import pkg.MRJob;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Optional;
 
 public class Main_Offline {
 
@@ -33,7 +34,7 @@ public class Main_Offline {
         MRJob.job(conf, UNIGRAM_PATH, TF_PATH, TFMapper.class, TFReducer.class, Main_Offline.class, false);
         conf.setInt(NUMBER_AUTHORS, countAuthors(conf, TF_PATH)); /* Sets number of authors as a property for configuration used in IDF calculations */
         MRJob.job(conf, TF_PATH, IDF_PATH, IDFMapper.class, IDFReducer.class, Main_Offline.class, false);
-        MRJob.multipleInputsJob(conf, TF_PATH, IDF_PATH, TFIDF_PATH, TFIDFMapper.class, TFIDFReducer.class, Main_Offline.class);
+        MRJob.multipleInputsJob(conf, TF_PATH, IDF_PATH, TFIDF_PATH, TFIDFMapper.class, TFIDFReducer.class, Main_Offline.class, Optional.of(5));
        // MRJob.job(conf, TFIDF_PATH, AAV_PATH, AAVMapper.class, AAVReducer.class, Main_Offline.class, true);
 
 	}

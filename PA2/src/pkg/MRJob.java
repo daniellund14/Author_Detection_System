@@ -17,6 +17,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Optional;
+import java.util.OptionalInt;
 
 /**
  * Created by DanielLund on 3/14/17.
@@ -29,40 +31,43 @@ import java.util.ArrayList;
 public class MRJob {
 
     public static boolean job(Configuration conf, String inputPath, String outputPath, Class mapperClass, Class reducerClass, Class mainClass, boolean combiner) throws IOException, InterruptedException, ClassNotFoundException {
-        Job idf = Job.getInstance(conf);
-        idf.setJarByClass(mainClass);
-        idf.setMapperClass(mapperClass);
-        idf.setReducerClass(reducerClass);
-        idf.setOutputKeyClass(Text.class);
-        idf.setOutputValueClass(Text.class);
-        idf.setInputFormatClass(TextInputFormat.class);
-        idf.setOutputFormatClass(TextOutputFormat.class);
+        Job job = Job.getInstance(conf);
+        job.setJarByClass(mainClass);
+        job.setMapperClass(mapperClass);
+        job.setReducerClass(reducerClass);
+        job.setOutputKeyClass(Text.class);
+        job.setOutputValueClass(Text.class);
+        job.setInputFormatClass(TextInputFormat.class);
+        job.setOutputFormatClass(TextOutputFormat.class);
 
-        FileInputFormat.setInputPaths(idf, new Path(inputPath));
-        FileOutputFormat.setOutputPath(idf, new Path(outputPath));
+        FileInputFormat.setInputPaths(job, new Path(inputPath));
+        FileOutputFormat.setOutputPath(job, new Path(outputPath));
 
-        idf.waitForCompletion(true);
+        job.waitForCompletion(true);
 
-        return idf.isSuccessful();
+        return job.isSuccessful();
     }
 
-    public static boolean multipleInputsJob(Configuration conf, String inputPath1, String inputPath2, String outputPath, Class mapperClass, Class reducerClass, Class mainClass)throws  IOException, InterruptedException, ClassNotFoundException{
-        Job tfidf = Job.getInstance(conf);
-        tfidf.setJarByClass(mainClass);
-        tfidf.setMapperClass(mapperClass);
-        tfidf.setReducerClass(reducerClass);
-        tfidf.setOutputKeyClass(Text.class);
-        tfidf.setOutputValueClass(Text.class);
-        tfidf.setInputFormatClass(TextInputFormat.class);
-        tfidf.setOutputFormatClass(TextOutputFormat.class);
+    public static boolean multipleInputsJob(Configuration conf, String inputPath1, String inputPath2, String outputPath, Class mapperClass, Class reducerClass, Class mainClass, Optional<Integer> optionalInt)throws  IOException, InterruptedException, ClassNotFoundException{
+        Job job = Job.getInstance(conf);
+        job.setJarByClass(mainClass);
+        job.setMapperClass(mapperClass);
+        job.setReducerClass(reducerClass);
+        job.setOutputKeyClass(Text.class);
+        job.setOutputValueClass(Text.class);
+        job.setInputFormatClass(TextInputFormat.class);
+        job.setOutputFormatClass(TextOutputFormat.class);
+        if(optionalInt.isPresent()){
+            job.setNumReduceTasks(optionalInt.get());
+        }
 
-        MultipleInputs.addInputPath(tfidf, new Path(inputPath1), TextInputFormat.class);
-        MultipleInputs.addInputPath(tfidf, new Path(inputPath2), TextInputFormat.class);
-        FileOutputFormat.setOutputPath(tfidf, new Path(outputPath));
+        MultipleInputs.addInputPath(job, new Path(inputPath1), TextInputFormat.class);
+        MultipleInputs.addInputPath(job, new Path(inputPath2), TextInputFormat.class);
+        FileOutputFormat.setOutputPath(job, new Path(outputPath));
 
-        tfidf.waitForCompletion(true);
+        job.waitForCompletion(true);
 
-        return tfidf.isSuccessful();
+        return job.isSuccessful();
     }
 
     public static ArrayList<String> readAuthors(Mapper.Context context) throws IOException {
@@ -79,7 +84,7 @@ public class MRJob {
         return authors;
     }
 
-    public static Integer countAuthors(Configuration conf, String inputFile) throws IOException, ClassNotFoundException, InterruptedException {
+    public static Integer countAuthors(Configuration conf) throws IOException, ClassNotFoundException, InterruptedException {
        return countLines(conf);
     }
 
