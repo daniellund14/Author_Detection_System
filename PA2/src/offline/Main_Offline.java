@@ -14,7 +14,7 @@ public class Main_Offline {
 
     private static final String UNIGRAM_PATH = "/PA2_Offline_unigram";
     private static final String TF_PATH = "/PA2_Offline_tf";
-    private static final String IDF_PATH = "/PA2_Offline_idf";
+    public static final String IDF_PATH = "/PA2_Offline_idf";
     private static final String TFIDF_PATH = "/PA2_Offline_tfidf";
     private static final String AAV_PATH = "/PA2_Offline_aav";
     public static final String AUTHOR_PATH = "/PA2_Offline_authors";
@@ -34,7 +34,7 @@ public class Main_Offline {
         MRJob.job(conf, UNIGRAM_PATH, TF_PATH, TFMapper.class, TFReducer.class, Main_Offline.class, false);
         conf.setInt(NUMBER_AUTHORS, countAuthors(conf, TF_PATH)); /* Sets number of authors as a property for configuration used in IDF calculations */
         MRJob.job(conf, TF_PATH, IDF_PATH, IDFMapper.class, IDFReducer.class, Main_Offline.class, false);
-        MRJob.multipleInputsJob(conf, TF_PATH, IDF_PATH, TFIDF_PATH, TFIDFMapper.class, TFIDFReducer.class, Main_Offline.class, Optional.of(5));
+        MRJob.multipleInputsJob(conf, TF_PATH, IDF_PATH, TFIDF_PATH, TFIDFMapper.class, TFIDFReducer.class, Main_Offline.class, Optional.empty());
        // MRJob.job(conf, TFIDF_PATH, AAV_PATH, AAVMapper.class, AAVReducer.class, Main_Offline.class, true);
 
 	}

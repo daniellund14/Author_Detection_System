@@ -3,6 +3,7 @@ package offline;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
+import pkg.IdfTerm;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -12,6 +13,8 @@ import java.util.ArrayList;
  */
 public class TFIDFMapper extends Mapper<LongWritable, Text, Text, Text> {
     static ArrayList<String> authors;
+    static ArrayList<IdfTerm> idf;
+
     @Override
     protected void setup(Context context) throws IOException, InterruptedException {
         authors = pkg.MRJob.readAuthors(context);

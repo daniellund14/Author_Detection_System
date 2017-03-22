@@ -14,14 +14,16 @@ public class AAVReducer extends Reducer<Text, Text, Text, Text>{
 
     @Override
     protected void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
-        String value = "";
+        String online = "";
+        String offline = "";
         for(Text val: values){
-            if(values.iterator().hasNext()){
-                value += val.toString() + " ";
+            if(val.toString().contains("#")){
+                online = val.toString();
             }else{
-                value += val.toString();
+                offline = val.toString();
             }
         }
-        context.write(key, new Text(value));
+        context.write(key, new Text(offline + " " + online));
     }
 }
+

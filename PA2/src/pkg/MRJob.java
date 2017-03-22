@@ -18,7 +18,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Optional;
-import java.util.OptionalInt;
 
 /**
  * Created by DanielLund on 3/14/17.
@@ -74,7 +73,8 @@ public class MRJob {
         ArrayList<String> authors = new ArrayList<>();
         FileSystem fs = FileSystem.get(context.getConfiguration());
         Path path = new Path(Main_Offline.AUTHOR_COUNT_PATH);
-        BufferedReader reader = new BufferedReader(new InputStreamReader(fs.open(path)));while (true){
+        BufferedReader reader = new BufferedReader(new InputStreamReader(fs.open(path)));
+        while (true){
             String line = reader.readLine();
             if(line == null)
                 break;
@@ -97,5 +97,17 @@ public class MRJob {
             lines++;
         }
         return lines;
+    }
+
+    public static ArrayList<IdfTerm> getIDFArray(Mapper.Context context) throws IOException{
+        ArrayList<IdfTerm>  idf = new ArrayList<>();
+        FileSystem fs = FileSystem.get(context.getConfiguration());
+        Path path = new Path(Main_Offline.IDF_PATH);
+        BufferedReader reader = new BufferedReader(new InputStreamReader(fs.open(path)));
+        String line = reader.readLine();
+        while(line != null){
+            idf.add(new IdfTerm(line));
+        }
+        return idf;
     }
 }
