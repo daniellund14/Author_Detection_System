@@ -24,19 +24,9 @@ public class CosSimMapper extends Mapper<LongWritable, Text, Text, Text> {
     @Override
     protected void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
         String[] line = value.toString().split("\\s+");
-        if(line.length == 3){
-            //Offline file
-            String author = line[0];
-            String term_tfidf = line[1] + ":" + line[2];
-            context.write(new Text("xyz " + author), new Text(term_tfidf));
-        }else if(line.length == 4){
-            //Online file
-            String term_tfidf = line[2] + ":" + line[3];
-            for(String author: authors){
-                context.write(new Text("xyz " + author), new Text(term_tfidf));
-            }
-        }else{
-            System.err.println("Invalid input file");
-        }
+        String author = line[0];
+        String term = line[1];
+        String tfidf = line[2];
+        context.write(new Text(term), new Text(author + "," + tfidf));
     }
 }

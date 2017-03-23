@@ -27,10 +27,10 @@ public class TFIDFReducer extends Reducer<Text,Text,Text,Text> {
                 tf = new Double(val.toString());
             }
         }
-        //if(idf != null) {
+        if(idf != null){
             Double tfidf = tf * idf;
-            context.write(new Text(key), new Text(tfidf.toString()));
-        //}
+            context.write(new Text("xyz" + " "  + key), new Text(tfidf.toString()));
+        }
     }
 }
 

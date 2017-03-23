@@ -1,6 +1,7 @@
 package pkg;
 
 import offline.Main_Offline;
+import online.CosSimCombiner;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
@@ -38,9 +39,11 @@ public class MRJob {
         job.setOutputValueClass(Text.class);
         job.setInputFormatClass(TextInputFormat.class);
         job.setOutputFormatClass(TextOutputFormat.class);
-
         FileInputFormat.setInputPaths(job, new Path(inputPath));
         FileOutputFormat.setOutputPath(job, new Path(outputPath));
+        if(combiner){
+            job.setCombinerClass(CosSimCombiner.class);
+        }
 
         job.waitForCompletion(true);
 
@@ -79,7 +82,7 @@ public class MRJob {
             if(line == null)
                 break;
             else
-                authors.add(line.replace("\t", ""));
+                authors.add(line.trim());
         }
         return authors;
     }

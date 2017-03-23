@@ -17,7 +17,8 @@ public void map(LongWritable key, Text value, Mapper.Context context) throws
         IOException, InterruptedException {
             String[] line = value.toString().split("\\s+");
             String author = line[0];
-            String termTFIDF = line[1] + ":" + line[2];
-            context.write(new Text(author), new Text(termTFIDF));
+            String term = line[1];
+            String tfidf = line[2];
+            context.write(new Text(author + " " + term), new Text(tfidf));
         }
 }

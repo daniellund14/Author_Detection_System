@@ -12,13 +12,14 @@ import java.util.Optional;
 
 public class Main_Offline {
 
-    private static final String UNIGRAM_PATH = "/PA2_Offline_unigram";
-    private static final String TF_PATH = "/PA2_Offline_tf";
-    public static final String IDF_PATH = "/PA2_Offline_idf";
-    private static final String TFIDF_PATH = "/PA2_Offline_tfidf";
-    private static final String AAV_PATH = "/PA2_Offline_aav";
-    public static final String AUTHOR_PATH = "/PA2_Offline_authors";
-    public static final String AUTHOR_COUNT_PATH = "/PA2_Offline_authors/part-r-00000";
+    private static final String PATH = "/PA2_Test_Offline";
+    private static final String UNIGRAM_PATH = PATH + "_unigram";
+    private static final String TF_PATH = PATH + "_tf";
+    public static final String IDF_PATH = PATH + "_idf";
+    private static final String TFIDF_PATH = PATH  + "_tfidf";
+    private static final String AAV_PATH = PATH + "_aav";
+    public static final String AUTHOR_PATH = PATH + "_authors";
+    public static final String AUTHOR_COUNT_PATH = PATH + "_authors/part-r-00000";
     public static final String NUMBER_AUTHORS = "NUMBER_AUTHORS";
 
 
@@ -30,14 +31,15 @@ public class Main_Offline {
         }
 
         Configuration conf = new Configuration();
-        //MRJob.job(conf, args[0], UNIGRAM_PATH, UnigramAuthorMapper.class, WordCountReducer.class, Main_Offline.class, false);
-        //MRJob.job(conf, UNIGRAM_PATH, TF_PATH, TFMapper.class, TFReducer.class, Main_Offline.class, false);
+        MRJob.job(conf, args[0], UNIGRAM_PATH, UnigramAuthorMapper.class, WordCountReducer.class, Main_Offline.class, false);
+        MRJob.job(conf, UNIGRAM_PATH, TF_PATH, TFMapper.class, TFReducer.class, Main_Offline.class, false);
 
-        //conf.setInt(NUMBER_AUTHORS, countAuthors(conf, TF_PATH)); /* Sets number of authors as a property for configuration used in IDF calculations */
+        conf.setInt(NUMBER_AUTHORS, countAuthors(conf, TF_PATH)); /* Sets number of authors as a property for configuration used in IDF calculations */
 
-        //MRJob.job(conf, TF_PATH, IDF_PATH, IDFMapper.class, IDFReducer.class, Main_Offline.class, false);
-        MRJob.multipleInputsJob(conf, TF_PATH, IDF_PATH, TFIDF_PATH, TFIDFTrialMapper.class, TFIDFTrialReducer.class, Main_Offline.class, Optional.empty());
-        // MRJob.job(conf, TFIDF_PATH, AAV_PATH, AAVMapper.class, AAVReducer.class, Main_Offline.class, true);
+        MRJob.job(conf, TF_PATH, IDF_PATH, IDFMapper.class, IDFReducer.class, Main_Offline.class, false);
+        MRJob.multipleInputsJob(conf, TF_PATH, IDF_PATH, TFIDF_PATH, TFIDFMapper.class, TFIDFReducer.class, Main_Offline.class, Optional.empty());
+
+        //MRJob.job(conf, TFIDF_PATH, AAV_PATH, AAVMapper.class, AAVReducer.class, Main_Offline.class, false);
 
     }
 

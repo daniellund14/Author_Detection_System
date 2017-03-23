@@ -13,16 +13,10 @@ import java.io.IOException;
 public class AAVReducer extends Reducer<Text,Text,Text,Text> {
     public void reduce(Text key, Iterable<Text> values, Context context) throws
             IOException, InterruptedException {
-        String AAV = "";
-        for (Text val: values){
-            if(values.iterator().hasNext()){
-                AAV += val.toString() + ",";
-            }else{
-                AAV += val.toString();
-            }
+        for(Text val: values){
+            String term = val.toString().split(":")[0];
+            context.write(new Text(key), new Text(val.toString()));
         }
-
-        context.write(key, new Text(AAV));
 
     }
 }
