@@ -69,9 +69,9 @@ public class MRJob {
         return job.isSuccessful();
     }
 
-    public static ArrayList<String> readAuthors(Mapper.Context context) throws IOException {
+    public static ArrayList<String> readAuthors(Configuration conf) throws IOException {
         ArrayList<String> authors = new ArrayList<>();
-        FileSystem fs = FileSystem.get(context.getConfiguration());
+        FileSystem fs = FileSystem.get(conf);
         Path path = new Path(Main_Offline.AUTHOR_COUNT_PATH);
         BufferedReader reader = new BufferedReader(new InputStreamReader(fs.open(path)));
         while (true){

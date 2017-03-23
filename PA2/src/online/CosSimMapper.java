@@ -18,7 +18,7 @@ public class CosSimMapper extends Mapper<LongWritable, Text, Text, Text> {
 
     @Override
     protected void setup(Context context) throws IOException, InterruptedException {
-        authors = pkg.MRJob.readAuthors(context);
+        authors = pkg.MRJob.readAuthors(context.getConfiguration());
     }
 
     @Override

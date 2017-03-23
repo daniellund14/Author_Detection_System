@@ -9,16 +9,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 /**
- * Created by DanielLund on 3/11/17.
+ * Created by DanielLund on 3/22/17.
+ * Colorado State University
+ * CS435
  */
-public class TFIDFMapper extends Mapper<LongWritable, Text, Text, Text> {
+public class TFIDFTrialMapper extends Mapper<LongWritable, Text, Text, Text> {
     static ArrayList<String> authors;
     static ArrayList<IdfTerm> idf;
-
-    @Override
-    protected void setup(Context context) throws IOException, InterruptedException {
-        authors = pkg.MRJob.readAuthors(context.getConfiguration());
-    }
 
     public void map(LongWritable key, Text value, Mapper.Context context) throws
             IOException, InterruptedException {
@@ -26,17 +23,13 @@ public class TFIDFMapper extends Mapper<LongWritable, Text, Text, Text> {
         if(line.length == 2) {
             // IDF File
             String term = line[0];
-            Text termText = new Text("#" + line[0]);
-            Text idf = new Text("#" + line[1]);
-            for (String author : authors) {
-                context.write(new Text(author + " " + term), idf);
-            }
+            context.write(new Text(term), new Text("#"+line[1]));
         }else if(line.length == 3){
             // TF File
             String author = line[0];
             String term = line[1];
             String tf = line[2];
-            context.write(new Text(author + " " + term), new Text(tf));
+            context.write(new Text(term), new Text(author + "," + tf));
         }else{
             System.err.println("Incorrect input file");
         }

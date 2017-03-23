@@ -20,7 +20,8 @@ public class IDFReducer extends Reducer<Text,Text,Text,Text> {
         Double IDF = Math.log10(number_authors/(new Double(count)));
 
         //context.write(key, new Text(IDF.toString() + "\t" + value));
-        context.write(key, new Text(IDF.toString()));
+        if(IDF != 0.0)
+            context.write(key, new Text(IDF.toString()));
 
 
     }

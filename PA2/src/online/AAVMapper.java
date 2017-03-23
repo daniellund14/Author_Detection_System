@@ -18,7 +18,7 @@ public class AAVMapper extends Mapper<LongWritable, Text, Text, Text>{
 
     @Override
     protected void setup(Context context) throws IOException, InterruptedException {
-        authors = MRJob.readAuthors(context);
+        authors = MRJob.readAuthors(context.getConfiguration());
     }
 
     @Override

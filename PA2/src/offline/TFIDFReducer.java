@@ -23,8 +23,8 @@ public class TFIDFReducer extends Reducer<Text,Text,Text,Text> {
             }
         }
         Double TFxIDF = TF * IDF;
-
-        context.write(key, new Text(TFxIDF.toString()));
+        if(TFxIDF != 0)
+            context.write(key, new Text(TFxIDF.toString()));
     }
 
 }

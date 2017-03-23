@@ -13,13 +13,12 @@ import java.io.IOException;
 public class TFIDFReducer extends Reducer<Text,Text,Text,Text> {
     @Override
     protected void setup(Context context) throws IOException, InterruptedException {
-        super.setup(context);
 
     }
 
     public void reduce(Text key, Iterable<Text> values, Context context) throws
             IOException, InterruptedException {
-        Double idf = 0.0;
+        Double idf = null;
         Double tf = 0.5;
         for(Text val: values){
             if(val.toString().contains("#")){
@@ -28,9 +27,10 @@ public class TFIDFReducer extends Reducer<Text,Text,Text,Text> {
                 tf = new Double(val.toString());
             }
         }
-        Double tfidf = tf*idf;
-        context.write(new Text(key), new Text(tfidf.toString()));
-
+        //if(idf != null) {
+            Double tfidf = tf * idf;
+            context.write(new Text(key), new Text(tfidf.toString()));
+        //}
     }
 }
 
