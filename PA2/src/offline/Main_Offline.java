@@ -12,7 +12,7 @@ import java.util.Optional;
 
 public class Main_Offline {
 
-    private static final String PATH = "/PA2_Test_Offline";
+    private static final String PATH = "/PA2_Offline";
     private static final String UNIGRAM_PATH = PATH + "_unigram";
     private static final String TF_PATH = PATH + "_tf";
     public static final String IDF_PATH = PATH + "_idf";

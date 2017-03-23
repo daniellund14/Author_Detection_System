@@ -15,7 +15,7 @@ import java.util.Optional;
  */
 public class Main_Online {
     //Online paths for files
-    private static final String PATH = "/PA2_Test_Online";
+    private static final String PATH = "/PA2_Online";
     private static final String UNIGRAM_PATH = PATH + "_unigram";
     private static final String TF_PATH = PATH + "_tf";
     private static final String TFIDF_PATH = PATH + "_tfidf";
@@ -27,9 +27,9 @@ public class Main_Online {
     private static final String AAV_PATH = PATH + "_aav";
 
     //Offline paths for files
-    private static final String OFFLINE_IDF_PATH = "/PA2_Test_Offline_idf"; /* Reuses IDF file from offline computation */
-    private static final String OFFLINE_TFIDF_PATH = "/PA2_Test_Offline_tfidf";
-    private static final String OFFLINE_AAV_PATH = "/PA2_Test_Offline_aav";
+    private static final String OFFLINE_IDF_PATH = "/PA2_Offline_idf"; /* Reuses IDF file from offline computation */
+    private static final String OFFLINE_TFIDF_PATH = "/PA2_Offline_tfidf";
+    private static final String OFFLINE_AAV_PATH = "/PA2_Offline_aav";
 
 
     public static void main(String[] args) throws  IOException, InterruptedException, ClassNotFoundException{
