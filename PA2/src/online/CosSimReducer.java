@@ -24,13 +24,17 @@ public class CosSimReducer extends Reducer<Text, Text, Text, Text> {
                 authors.add(pair);
             }
         }
+        Text keyOut = new Text();
+        Text valOut = new Text();
         for(String[] pair: authors){
             String author = pair[0];
             Double b = new Double(pair[1]);
             Double unknownTimesB = unknownTFIDF * b;
             Double unknownSquare = unknownTFIDF * unknownTFIDF;
             Double bSquare = b * b;
-            context.write(new Text(author + ",xyz"),  new Text(unknownTimesB.toString() + ","  + unknownSquare.toString() + "," + bSquare.toString()));
+            keyOut.set(author + ",xyz");
+            valOut.set(unknownTimesB.toString() + ","  + unknownSquare.toString() + "," + bSquare.toString());
+            context.write(keyOut, valOut);
         }
     }
 }

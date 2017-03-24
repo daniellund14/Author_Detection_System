@@ -15,7 +15,7 @@ import java.util.Optional;
  */
 public class Main_Online {
     //Online paths for files
-    private static final String PATH = "/PA2_Online";
+    private static final String PATH = "/PA2_Test_Online";
     private static final String UNIGRAM_PATH = PATH + "_unigram";
     private static final String TF_PATH = PATH + "_tf";
     private static final String TFIDF_PATH = PATH + "_tfidf";

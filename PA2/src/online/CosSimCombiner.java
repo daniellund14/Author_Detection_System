@@ -24,7 +24,6 @@ public class CosSimCombiner extends Reducer<Text, Text, Text, Text>{
             sumBSquare += bSquare;
         }
         String line = sumAB + "," + sumASquare + "," + sumBSquare;
-
         context.write(key, new Text(line));
     }
 }

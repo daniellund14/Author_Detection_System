@@ -33,6 +33,8 @@ public class TFIDFReducer extends Reducer<Text,Text,Text,Text> {
             }
         }
         ArrayList<String> writtenAuthors = new ArrayList<>();
+        Text keyOut = new Text();
+        Text valOut = new Text();
         for(Text s: cache){
             if(s.toString().contains("#")){
                 continue;
@@ -43,7 +45,9 @@ public class TFIDFReducer extends Reducer<Text,Text,Text,Text> {
             usedAuthors.add(author);
             Double TFxIDF = TF * IDF;
             if(!writtenAuthors.contains(author)) {
-                context.write(new Text(author + " " + key.toString()), new Text(IDF.toString()));
+                keyOut.set(author + " " + key.toString());
+                valOut.set(IDF.toString());
+                context.write(keyOut, valOut);
                 writtenAuthors.add(author);
             }
         }
@@ -52,7 +56,9 @@ public class TFIDFReducer extends Reducer<Text,Text,Text,Text> {
             if(!usedAuthors.contains(author)){
                 Double TFxIDF = .5 * IDF;
                 if(!writtenAuthors.contains(author)) {
-                    context.write(new Text(author + " " + key.toString()), new Text(TFxIDF.toString()));
+                    keyOut.set(author + " " + key.toString());
+                    valOut.set(IDF.toString());
+                    context.write(keyOut, valOut);
                     writtenAuthors.add(author);
                 }
             }
