@@ -25,7 +25,7 @@ public class CosSimReducer2 extends Reducer<Text, Text, Text, Text> {
             sumBSquare += bSquare;
         }
 
-        Double cosSim = ((sumAB)/(sumASquare * sumBSquare));
+        Double cosSim = ((sumAB)/(Math.sqrt(sumASquare) * Math.sqrt(sumBSquare)));
         String author = key.toString().split(",")[0];
         context.write(new Text(author), new Text(cosSim.toString()));
     }

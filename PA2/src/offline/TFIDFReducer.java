@@ -46,7 +46,7 @@ public class TFIDFReducer extends Reducer<Text,Text,Text,Text> {
             Double TFxIDF = TF * IDF;
             if(!writtenAuthors.contains(author)) {
                 keyOut.set(author + " " + key.toString());
-                valOut.set(IDF.toString());
+                valOut.set(TFxIDF.toString());
                 context.write(keyOut, valOut);
                 writtenAuthors.add(author);
             }
@@ -57,7 +57,7 @@ public class TFIDFReducer extends Reducer<Text,Text,Text,Text> {
                 Double TFxIDF = .5 * IDF;
                 if(!writtenAuthors.contains(author)) {
                     keyOut.set(author + " " + key.toString());
-                    valOut.set(IDF.toString());
+                    valOut.set(TFxIDF.toString());
                     context.write(keyOut, valOut);
                     writtenAuthors.add(author);
                 }

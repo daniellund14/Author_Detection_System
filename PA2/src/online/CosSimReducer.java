@@ -34,8 +34,8 @@ public class CosSimReducer extends Reducer<Text, Text, Text, Text> {
             Double bSquare = b * b;
             keyOut.set(author + ",xyz");
             valOut.set(AB.toString() + ","  + aSquare.toString() + "," + bSquare.toString());
-            //valOut.set("Unkown TFIDF:"+unknownTFIDF.toString() + " B value:" + b.toString() +
-            //" Unknown TFIDF * B:" + AB.toString() + " Unknown Squared:" + aSquare.toString() + " B value Sqaured:" + bSquare.toString());
+//            valOut.set("Unkown TFIDF:"+unknownTFIDF.toString() + " B value:" + b.toString() +
+//            " Unknown TFIDF * B:" + AB.toString() + " Unknown Squared:" + aSquare.toString() + " B value Sqaured:" + bSquare.toString());
             context.write(keyOut, valOut);
         }
     }

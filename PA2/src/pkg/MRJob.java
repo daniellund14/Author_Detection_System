@@ -114,7 +114,15 @@ public class MRJob {
             line = reader.readLine();
         }
         Collections.sort(cosSimArray,Collections.reverseOrder());
-        System.out.println(cosSimArray.toString());
+        //System.out.println(cosSimArray.toString());
+        Integer count = 0;
+        for(AuthorCosSim sim: cosSimArray){
+            if(count == 10){
+                break;
+            }
+            System.out.printf("%d: %s\n", count + 1, sim);
+            count++;
+        }
 
 
     }

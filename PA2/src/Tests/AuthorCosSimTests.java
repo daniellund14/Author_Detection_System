@@ -34,8 +34,8 @@ public class AuthorCosSimTests {
 
     @Test public void testTopTen(){
         ArrayList<AuthorCosSim> cosSims = new ArrayList<>();
-        String authors = "author1 1.0,author2 1.1,author3 1.11,author4 1.111,author5 1.1111,author6 1.11111,author7 1.111111,author8 1.1111111,author9 1.11111111,author10 1.111111111";
-        String[] authorCos = authors.split(",");
+        String authors = "Shedd 2.9878223965646594E-5, Various 2.9878223965646445E-5, Burroughs 2.9878223965646397E-5, Morley 2.9878223965646377E-5, Sinclair 2.987822396564633E-5, Stewart 2.9878223965646306E-5, Madison 2.9878223965646282E-5, Stevenson 2.9878223965646238E-5, Doyle 2.9878223965646167E-5, Maugham 2.987822396564616E-5, Dickens 2.9878223965646133E-5, Balzac 2.9878223965645977E-5, Hamilton 2.987822396564597E-5, Haultain 2.987822396564597E-5, Grimalkin 2.987822396564595E-5, Twain 2.9878223965645947E-5, Austen 2.9878223965645913E-5, Hardy 2.987822396564587E-5, Eliot 2.9878223965645852E-5, Woolf 2.9878223965645808E-5, Atherton 2.9878223965645692E-5";
+        String[] authorCos = authors.split(", ");
         for(String line: authorCos){
             cosSims.add(new AuthorCosSim(line));
         }
