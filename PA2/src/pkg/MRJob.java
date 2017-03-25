@@ -116,6 +116,10 @@ public class MRJob {
         Collections.sort(cosSimArray,Collections.reverseOrder());
         //System.out.println(cosSimArray.toString());
         Integer count = 0;
+
+        String Dashes = new String(new char[80]).replace("\0", "-");
+        System.out.println("\nTop 10 Author list");
+        System.out.println(Dashes);
         for(AuthorCosSim sim: cosSimArray){
             if(count == 10){
                 break;
@@ -123,6 +127,9 @@ public class MRJob {
             System.out.printf("%d: %s\n", count + 1, sim);
             count++;
         }
+
+        System.out.println("\n" + Dashes);
+
 
 
     }

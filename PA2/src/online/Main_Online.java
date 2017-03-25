@@ -17,8 +17,8 @@ import java.util.Optional;
 public class Main_Online {
     //Online paths for files
 
-    private static final String PATH = "/PA2_Test_Online";
-//    private static final String PATH = "/PA2_Online";
+//    private static final String PATH = "/PA2_Test_Online";
+    private static final String PATH = "/PA2_Online";
 
     private static final String UNIGRAM_PATH = PATH + "_unigram";
     private static final String TF_PATH = PATH + "_tf";
@@ -45,7 +45,7 @@ public class Main_Online {
         MRJob.multipleInputsJob(conf, TF_PATH, OFFLINE_IDF_PATH, TFIDF_PATH, TFIDFMapper.class, TFIDFReducer.class, Main_Online.class, Optional.empty());
 
         MRJob.multipleInputsJob(conf, TFIDF_PATH, OFFLINE_TFIDF_PATH, COSSIM1_PATH, online.CosSimMapper.class, online.CosSimReducer.class, Main_Online.class, Optional.of(10));
-        MRJob.job(conf, COSSIM1_PATH, COSSIM2_PATH, online.CosSimMapper2.class, CosSimReducer2.class, Main_Online.class, false);
+        MRJob.job(conf, COSSIM1_PATH, COSSIM2_PATH, online.CosSimMapper2.class, CosSimReducer2.class, Main_Online.class, true);
         MRJob.printTopTen(conf);
     }
 
