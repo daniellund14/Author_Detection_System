@@ -13,10 +13,12 @@ import java.util.Optional;
 public class Main_Offline {
 
     private static final String PATH = "/PA2_Test_Offline";
+//    private static final String PATH = "/PA2_Offline";
+
     private static final String UNIGRAM_PATH = PATH + "_unigram";
     private static final String TF_PATH = PATH + "_tf";
     public static final String IDF_PATH = PATH + "_idf";
-    private static final String TFIDF_PATH = PATH  + "_tfidf";
+    public static final String TFIDF_PATH = PATH  + "_tfidf";
     private static final String AAV_PATH = PATH + "_aav";
     public static final String AUTHOR_PATH = PATH + "_authors";
     public static final String AUTHOR_COUNT_PATH = PATH + "_authors/part-r-00000";
