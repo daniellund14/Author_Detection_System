@@ -29,11 +29,13 @@ public class CosSimReducer extends Reducer<Text, Text, Text, Text> {
         for(String[] pair: authors){
             String author = pair[0];
             Double b = new Double(pair[1]);
-            Double unknownTimesB = unknownTFIDF * b;
-            Double unknownSquare = unknownTFIDF * unknownTFIDF;
+            Double AB = unknownTFIDF * b;
+            Double aSquare = unknownTFIDF * unknownTFIDF;
             Double bSquare = b * b;
             keyOut.set(author + ",xyz");
-            valOut.set(unknownTimesB.toString() + ","  + unknownSquare.toString() + "," + bSquare.toString());
+            valOut.set(AB.toString() + ","  + aSquare.toString() + "," + bSquare.toString());
+            //valOut.set("Unkown TFIDF:"+unknownTFIDF.toString() + " B value:" + b.toString() +
+            //" Unknown TFIDF * B:" + AB.toString() + " Unknown Squared:" + aSquare.toString() + " B value Sqaured:" + bSquare.toString());
             context.write(keyOut, valOut);
         }
     }

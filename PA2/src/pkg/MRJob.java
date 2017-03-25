@@ -2,12 +2,12 @@ package pkg;
 
 import offline.Main_Offline;
 import online.CosSimCombiner;
+import online.Main_Online;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
-import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.input.MultipleInputs;
 import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
@@ -18,6 +18,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Optional;
 
 /**
@@ -102,15 +103,19 @@ public class MRJob {
         return lines;
     }
 
-    public static ArrayList<IdfTerm> getIDFArray(Mapper.Context context) throws IOException{
-        ArrayList<IdfTerm>  idf = new ArrayList<>();
-        FileSystem fs = FileSystem.get(context.getConfiguration());
-        Path path = new Path(Main_Offline.IDF_PATH);
+    public static void printTopTen(Configuration conf)throws IOException{
+        ArrayList<AuthorCosSim>  cosSimArray = new ArrayList<>();
+        FileSystem fs = FileSystem.get(conf);
+        Path path = new Path(Main_Online.COSSIM2_PATH + "/part-r-00000");
         BufferedReader reader = new BufferedReader(new InputStreamReader(fs.open(path)));
         String line = reader.readLine();
         while(line != null){
-            idf.add(new IdfTerm(line));
+            cosSimArray.add(new AuthorCosSim(line));
+            line = reader.readLine();
         }
-        return idf;
+        Collections.sort(cosSimArray,Collections.reverseOrder());
+        System.out.println(cosSimArray.toString());
+
+
     }
 }
