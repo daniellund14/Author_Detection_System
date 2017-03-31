@@ -3,5 +3,5 @@
  * Colorado State University
  * CS435
  */
-public class Main_Class {
+public class MainClass {
 }
