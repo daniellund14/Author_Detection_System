@@ -11,6 +11,7 @@ import java.io.IOException;
  * Colorado State University
  * CS435
  */
+
 public class AAVMapper extends Mapper<LongWritable, Text, Text, Text> {
 
 public void map(LongWritable key, Text value, Mapper.Context context) throws

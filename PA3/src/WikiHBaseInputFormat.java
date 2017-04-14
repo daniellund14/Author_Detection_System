@@ -1,22 +1,16 @@
-import org.apache.hadoop.mapreduce.*;
-
-import java.io.IOException;
-import java.util.List;
+import org.apache.hadoop.mapreduce.InputSplit;
+import org.apache.hadoop.mapreduce.RecordReader;
+import org.apache.hadoop.mapreduce.TaskAttemptContext;
+import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
 
 /**
  * Created by DanielLund on 3/31/17.
  * Colorado State University
  * CS435
  */
-public class WikiHBaseInputFormat extends InputFormat {
+public class WikiHBaseInputFormat extends TextInputFormat {
 
-    @Override
-    public List<InputSplit> getSplits(JobContext jobContext) throws IOException, InterruptedException {
-        return null;
-    }
-
-    @Override
-    public RecordReader createRecordReader(InputSplit inputSplit, TaskAttemptContext taskAttemptContext) throws IOException, InterruptedException {
+    public RecordReader createRecordReader(InputSplit inputSplit, TaskAttemptContext taskAttemptContext)  {
         return new WikiRecordReader();
     }
 }

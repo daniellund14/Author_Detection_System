@@ -45,8 +45,46 @@ public class WikiRecordReader extends RecordReader {
 
     @Override
     public boolean nextKeyValue() throws IOException, InterruptedException {
-
+        if(fsDataInputStream.getPos() < end){
+            if(readToMatch(startTags, false)){
+                try {
+                    buffer.write(startTags);
+                    if(readToMatch(endTags, true)) {
+                        key.set(fsDataInputStream.getPos());
+                        value.set(buffer.getData(), 0, buffer.getLength());
+                        return true;
+                    }
+                } finally {
+                    buffer.reset();
+                }
+            }
+        }
         return false;
+    }
+
+    public boolean readToMatch(byte[] match, boolean within) throws IOException{
+        int i = 0;
+        while(true){
+            int b = fsDataInputStream.read();
+
+            if(b == -1){
+                return false;
+            }
+            if(within){
+                buffer.write(b);
+            }
+            if(b == match[i]){
+                i++;
+                if ( i >= match.length)
+                    return true;
+            } else
+                i = 0;
+
+            if (!within && i == 0 && fsDataInputStream.getPos() >= end){
+                return false;
+            }
+
+        }
     }
 
     @Override
@@ -56,7 +94,6 @@ public class WikiRecordReader extends RecordReader {
 
     @Override
     public Object getCurrentValue() throws IOException, InterruptedException {
-
         return value;
     }
 
@@ -67,6 +104,6 @@ public class WikiRecordReader extends RecordReader {
 
     @Override
     public void close() throws IOException {
-
+        fsDataInputStream.close();
     }
 }
