@@ -18,9 +18,6 @@ public class CSVMapper extends Mapper<LongWritable, Text, Text, Text>{
         for(int i = 1; i < revision.length; i++){
             if(i == revision.length - 1)
                 keyOut += revision[i];
-            else if (i == 2){
-                keyOut = revision[i] + "," + keyOut;
-            }
             else
                 keyOut += revision[i] + ",";
         }
