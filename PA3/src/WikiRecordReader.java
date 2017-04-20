@@ -40,7 +40,6 @@ public class WikiRecordReader extends RecordReader {
         endTags = "\n\n".getBytes();
         fsDataInputStream = fs.open(file);
         fsDataInputStream.seek(start);
-
     }
 
     @Override
@@ -60,6 +59,7 @@ public class WikiRecordReader extends RecordReader {
             }
         }
         return false;
+
     }
 
     public boolean readToMatch(byte[] match, boolean within) throws IOException{

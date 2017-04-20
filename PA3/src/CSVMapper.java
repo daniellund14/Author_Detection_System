@@ -18,8 +18,15 @@ public class CSVMapper extends Mapper<LongWritable, Text, Text, Text>{
         for(int i = 1; i < revision.length; i++){
             if(i == revision.length - 1)
                 keyOut += revision[i];
-            else
-                keyOut += revision[i] + ",";
+            else {
+                if(i == 3){
+                    String[] temp = revision[i].split(":");
+                    keyOut += temp[1] + ",";
+
+                }else {
+                    keyOut += revision[i] + ",";
+                }
+            }
         }
         context.write(new Text(keyOut), new Text());
     }
