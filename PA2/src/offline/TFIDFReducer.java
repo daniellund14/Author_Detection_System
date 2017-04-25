@@ -26,10 +26,11 @@ public class TFIDFReducer extends Reducer<Text,Text,Text,Text> {
         Double IDF = 0.0;
         Double TF = 0.5;
         for(Text s: values){
+            Text copy = new Text(s);
            if(s.toString().contains("#")){
                 IDF = new Double(s.toString().replace("#", ""));
             }else{
-               cache.add(s);
+               cache.add(copy);
             }
         }
         ArrayList<String> writtenAuthors = new ArrayList<>();

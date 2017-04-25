@@ -1,10 +1,13 @@
 package online;
 
 import offline.Main_Offline;
+import offline.UnigramAuthorMapper;
+import offline.WordCountReducer;
 import org.apache.hadoop.conf.Configuration;
 import pkg.MRJob;
 
 import java.io.IOException;
+import java.util.Optional;
 
 /**
  * Created by DanielLund on 3/14/17.
@@ -36,15 +39,16 @@ public class Main_Online {
             System.exit(-1);
         }
         Configuration conf = new Configuration();
-//        MRJob.job(conf, args[0], UNIGRAM_PATH, UnigramAuthorMapper.class, WordCountReducer.class, Main_Online.class, false);
-//        MRJob.job(conf, UNIGRAM_PATH, TF_PATH, offline.TFMapper.class, offline.TFReducer.class, Main_Online.class, false);
-//
-//        MRJob.multipleInputsJob(conf, TF_PATH, OFFLINE_IDF_PATH, TFIDF_PATH, TFIDFMapper.class, TFIDFReducer.class, Main_Online.class, Optional.empty());
-//
-//        MRJob.multipleInputsJob(conf, TFIDF_PATH, OFFLINE_TFIDF_PATH, COSSIM1_PATH, online.CosSimMapper.class, online.CosSimReducer.class, Main_Online.class, Optional.of(10));
-//        MRJob.job(conf, COSSIM1_PATH, COSSIM2_PATH, online.CosSimMapper2.class, CosSimReducer2.class, Main_Online.class, true);
+        MRJob.job(conf, args[0], UNIGRAM_PATH, UnigramAuthorMapper.class, WordCountReducer.class, Main_Online.class, false);
+        MRJob.job(conf, UNIGRAM_PATH, TF_PATH, offline.TFMapper.class, offline.TFReducer.class, Main_Online.class, false);
+
+        MRJob.multipleInputsJob(conf, TF_PATH, OFFLINE_IDF_PATH, TFIDF_PATH, online.TFIDFMapper.class, online.TFIDFReducer.class, Main_Online.class, Optional.empty());
+
+        MRJob.multipleInputsJob(conf, TFIDF_PATH, OFFLINE_TFIDF_PATH, COSSIM1_PATH, online.CosSimMapper.class, online.CosSimReducer.class, Main_Online.class, Optional.of(10));
+        MRJob.job(conf, COSSIM1_PATH, COSSIM2_PATH, online.CosSimMapper2.class, CosSimReducer2.class, Main_Online.class, true);
+
+
         MRJob.printTopTen(conf);
     }
-
 
 }

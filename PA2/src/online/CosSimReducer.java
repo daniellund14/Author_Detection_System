@@ -17,7 +17,8 @@ public class CosSimReducer extends Reducer<Text, Text, Text, Text> {
         ArrayList<String[]> authors = new ArrayList<>();
         Double unknownTFIDF = 0.0;
         for(Text val: values){
-            String[] pair = val.toString().split(",");
+            String copy = val.toString();
+            String[] pair = copy.split(",");
             if(pair[0].equals("xyz")){
                 unknownTFIDF = new Double(pair[1]);
             }else{
